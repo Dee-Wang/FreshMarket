@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from DjangoUeditor.models import UEditorField
+# from DjangoUeditor3.DjangoUeditor.models import UEditorField
 
 
 # 开始写数据库
@@ -46,8 +46,8 @@ class GoodsCategoryBrand(models.Model):
 
 
 # 商品详情的数据表
-class Goods:
-    category = models.ForeignKey(GoodCategory, related_name="brands", null=True, blank=True, verbose_name="商品类目")
+class Goods(models.Model):
+    category = models.ForeignKey(GoodCategory, verbose_name="商品类目")
     goods_sn = models.CharField(max_length=60, default="", verbose_name="商品的唯一的货号")
     name = models.CharField(max_length=100, verbose_name="商品名称")
     click_num = models.IntegerField(default=0, verbose_name="点击数")
@@ -57,7 +57,7 @@ class Goods:
     market_price = models.FloatField(default=0, verbose_name="市场价格")
     shop_price = models.FloatField(default=0, verbose_name="本店售价")
     good_brief = models.TextField(max_length=512, verbose_name="商品简述")
-    good_desc = UEditorField(verbose_name=u"内容", imagePath="goods/images/", width=1000, height=300, filePath="goods/files/", default="")
+    # good_desc = UEditorField(verbose_name=u"内容", imagePath="goods/images/", width=1000, height=300, filePath="goods/files/", default="")
     postage_free = models.BooleanField(default=True, verbose_name="是否承担运费")
     goods_front_image = models.ImageField(upload_to="goods/images/", null=True, blank=True, verbose_name="封面图")
     is_new = models.BooleanField(default=False, verbose_name="是否新品")
@@ -87,7 +87,7 @@ class IndexAd(models.Model):
 
 # 轮播的商品
 class Banner(models.Model):
-    goods = models.ForeignKey(Goods, related_name="goods", verbose_name="商品名称")
+    goods = models.ForeignKey(Goods, verbose_name="商品名称")
     image = models.ImageField(upload_to="banner", verbose_name="轮播图片")
     index = models.IntegerField(default=0, verbose_name="轮播顺序")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
