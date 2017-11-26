@@ -11,10 +11,15 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import sys
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+# 设置根目录的形式，也就是source root
+sys.path.insert(0, BASE_DIR)
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -26,6 +31,9 @@ SECRET_KEY = '3z70n9jeqb#j+6y+3kuiwz@+g^3b^sf%6$kt=q71%ug83zi8hg'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# 这句是为了将自己写的用户设置成系统的用户
+AUTH_USER_MODEL = 'users.UserProfile'
 
 
 # Application definition
@@ -83,6 +91,7 @@ DATABASES = {
         'PASSWORD': '123456',
         'HOST': '0.0.0.0',
         'PORT': '3306',
+        'OPTIONS':{'init_command': 'SET store_engine=INNODB;'}
     }
 }
 
